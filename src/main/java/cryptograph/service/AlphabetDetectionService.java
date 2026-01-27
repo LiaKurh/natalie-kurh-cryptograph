@@ -1,12 +1,14 @@
-package cryptograph.utils;
+package cryptograph.service;
 
-public class AlphabetDetectionUtils {
+import cryptograph.exception.UnknownLanguageException;
+
+public class AlphabetDetectionService {
     private static final String EN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String UK_ALPHABET = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя";
 
     public String getAlphabet(String text) {
         if (text == null || text.isBlank()) {
-            throw new RuntimeException("Data is empty");
+            throw new IllegalArgumentException("Data is empty");
         }
         int uk = 0;
         int en = 0;
@@ -18,7 +20,7 @@ public class AlphabetDetectionUtils {
             }
         }
         if (uk == 0 && en == 0) {
-            throw new RuntimeException("Unknown language");
+            throw new UnknownLanguageException("Unknown language");
         }
         return uk > en ? UK_ALPHABET : EN_ALPHABET;
     }

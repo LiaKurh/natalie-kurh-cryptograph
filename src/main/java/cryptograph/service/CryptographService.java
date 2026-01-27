@@ -26,6 +26,9 @@ public class CryptographService {
         return encrypt(data, -key);
     }
 
+    public String bruteForce(String data) {
+        return "";
+    }
     private int getShiftedIndexByKey(int index, int key) {
         int shiftedIndex = (index + key) % alphabet.length();
         return shiftedIndex < 0 ? shiftedIndex + alphabet.length() : shiftedIndex;

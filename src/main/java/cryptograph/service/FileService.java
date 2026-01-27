@@ -1,9 +1,11 @@
-package cryptograph.utils;
+package cryptograph.service;
+
+import cryptograph.domain.Command;
 
 import java.io.*;
 import java.util.stream.Collectors;
 
-public class FileUtils {
+public class FileService {
 
     public String readFromFile(String file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -21,14 +23,14 @@ public class FileUtils {
         }
     }
 
-    public String getNewFileName(String file, Commands command) {
+    public String getNewFileName(String file, Command command) {
         StringBuilder builder = new StringBuilder(file);
         int index = builder.lastIndexOf(".");
         builder.insert(index, getCommand(command));
         return builder.toString();
     }
 
-    private String getCommand(Commands command) {
+    private String getCommand(Command command) {
         return switch (command) {
             case ENCRYPT -> "[ENCRYPTED]";
             case DECRYPT -> "[DECRYPTED]";
