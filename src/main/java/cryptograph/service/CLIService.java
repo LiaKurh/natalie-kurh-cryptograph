@@ -1,8 +1,10 @@
 package cryptograph.service;
 
+import cryptograph.domain.Command;
+
 import java.util.Scanner;
 
-public class CLI {
+public class CLIService {
 
     public String[] getProgramArguments() {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -10,6 +12,9 @@ public class CLI {
             String command = scanner.nextLine();
             System.out.println("Enter path to the file: ");
             String file = scanner.nextLine();
+            if(command.equals(Command.BRUTE_FORCE.name())) {
+                return new String[]{command, file};
+            }
             System.out.println("Enter the key: ");
             String key = scanner.nextLine();
             return new String[]{command, file, key};
