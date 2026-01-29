@@ -15,15 +15,16 @@ public class FileService {
         }
     }
 
-    public void writeToFile(String data, String file) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+    public void writeToFile(String data, String file, String command) {
+        String toFile = getNewFileName(file, Command.valueOf(command));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(toFile))) {
             writer.write(data);
         } catch (IOException e) {
-            throw new RuntimeException("Can't write data to file: " + file, e);
+            throw new RuntimeException("Can't write data to file: " + toFile, e);
         }
     }
 
-    public String getNewFileName(String file, Command command) {
+    private String getNewFileName(String file, Command command) {
         StringBuilder builder = new StringBuilder(file);
         int index = builder.lastIndexOf(".");
         builder.insert(index, getCommand(command));
