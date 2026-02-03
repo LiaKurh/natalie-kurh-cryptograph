@@ -2,7 +2,7 @@ package cryptograph.domain;
 
 public enum Dictionary {
     EN_DICTIONARY("src/main/resources/en_dictionary.txt"),
-    UK_DICTIONARY("src/main/resources/uk_dictionary.txt");
+    UK_DICTIONARY("src/main/resources/ua_dictionary.txt");
 
     private final String dictionary;
 
