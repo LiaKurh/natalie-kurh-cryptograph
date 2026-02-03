@@ -1,27 +1,54 @@
 package cryptograph.service;
 
+import cryptograph.domain.Alphabet;
 import cryptograph.exception.UnknownLanguageException;
 
-public class AlphabetDetectionService {
-    private static final String EN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private static final String UK_ALPHABET = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя";
+import java.util.*;
 
-    public String getAlphabet(String text) {
-        if (text == null || text.isBlank()) {
+public class AlphabetDetectionService {
+
+    public String getAlphabet(String data) {
+        if (data == null || data.isBlank()) {
             throw new IllegalArgumentException("Data is empty");
         }
-        int uk = 0;
-        int en = 0;
-        for (char ch : text.toLowerCase().toCharArray()) {
-            if (ch >= 'а' && ch <= 'я') {
-                uk++;
-            } else if (ch >= 'a' && ch <= 'z') {
-                en++;
+        String letters = getNonRepeatableLetters(data);
+        String[] alphabets = getAlphabets();
+        return findAlphabet(letters, alphabets);
+    }
+
+    private String getNonRepeatableLetters(String text) {
+        String letters = text.replaceAll("[^\\p{L}]", "");
+        if (letters.isEmpty()) {
+            throw new UnknownLanguageException("Unknown language!");
+        }
+        StringBuilder builder = new StringBuilder();
+        letters.chars().distinct().forEach(c -> builder.append((char) c));
+        return builder.toString();
+    }
+
+    private String[] getAlphabets() {
+        return Arrays.stream(Alphabet.values()).map(Alphabet::getAlphabet).toArray(String[]::new);
+    }
+
+    private String findAlphabet(String letters, String[] alphabets) {
+        String alphabet = "";
+        int max = 0;
+        for (String s : alphabets) {
+            int count = 0;
+            for (int j = 0; j < letters.length(); j++) {
+                int index = s.indexOf(letters.charAt(j));
+                if (index != -1) {
+                    count++;
+                }
+            }
+            if (max < count) {
+                max = count;
+                alphabet = s;
             }
         }
-        if (uk == 0 && en == 0) {
+        if (alphabet.isEmpty()) {
             throw new UnknownLanguageException("Unknown language");
         }
-        return uk > en ? UK_ALPHABET : EN_ALPHABET;
+        return alphabet;
     }
 }
