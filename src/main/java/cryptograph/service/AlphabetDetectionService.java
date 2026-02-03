@@ -33,17 +33,17 @@ public class AlphabetDetectionService {
     private String findAlphabet(String letters, String[] alphabets) {
         String alphabet = "";
         int max = 0;
-        for (String s : alphabets) {
+        for (String possibleAlphabet : alphabets) {
             int count = 0;
             for (int j = 0; j < letters.length(); j++) {
-                int index = s.indexOf(letters.charAt(j));
+                int index = possibleAlphabet.indexOf(letters.charAt(j));
                 if (index != -1) {
                     count++;
                 }
             }
             if (max < count) {
                 max = count;
-                alphabet = s;
+                alphabet = possibleAlphabet;
             }
         }
         if (alphabet.isEmpty()) {
