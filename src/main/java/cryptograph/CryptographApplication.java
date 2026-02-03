@@ -5,7 +5,6 @@ import cryptograph.service.CryptographService;
 import cryptograph.service.AlphabetDetectionService;
 import cryptograph.service.FileService;
 
-
 public class CryptographApplication {
     public static void main(String[] args) {
         FileService fileService = new FileService();

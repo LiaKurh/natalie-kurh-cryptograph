@@ -11,19 +11,35 @@ import java.util.Arrays;
 
 public class ProgramArgumentsValidation {
     private static final int PROGRAM_ARGS_LENGTH = 3;
+    private static final int PROGRAM_ARGS_LENGTH_WITHOUT_KEY = 2;
 
     public boolean isValidArgs(String... args) {
-        if (args.length != PROGRAM_ARGS_LENGTH) {
-            throw new InvalidProgramArgsLengthException("Program must have " + PROGRAM_ARGS_LENGTH
-                    + " arguments: command, file path, key. Find arguments: " + args.length);
+        if (isValidArgsLength(args) && args.length == PROGRAM_ARGS_LENGTH_WITHOUT_KEY) {
+            return isValidCommand(args[ArgsIndex.ARGS_COMMAND_INDEX])
+                    && isValidFile(args[ArgsIndex.ARGS_FILE_PATH_INDEX]);
         }
-        return isValidCommand(args[ArgsIndex.ARGS_COMMAND_INDEX])
+        return isValidArgsLength(args)
+                && isValidCommand(args[ArgsIndex.ARGS_COMMAND_INDEX])
                 && isValidFile(args[ArgsIndex.ARGS_FILE_PATH_INDEX])
                 && isValidKey(args[ArgsIndex.ARGS_KEY_INDEX]);
     }
 
+    private boolean isValidArgsLength(String... args) {
+        if (args[ArgsIndex.ARGS_COMMAND_INDEX].equals(Command.BRUTE_FORCE.name())
+                && args.length != PROGRAM_ARGS_LENGTH_WITHOUT_KEY) {
+            throw new InvalidProgramArgsLengthException("Program must have " + PROGRAM_ARGS_LENGTH_WITHOUT_KEY
+                    + " arguments: command, file path. Find arguments: " + args.length);
+        }
+        if (!args[ArgsIndex.ARGS_COMMAND_INDEX].equals(Command.BRUTE_FORCE.name())
+                && args.length != PROGRAM_ARGS_LENGTH) {
+            throw new InvalidProgramArgsLengthException("Program must have " + PROGRAM_ARGS_LENGTH
+                    + " arguments: command, file path, key. Find arguments: " + args.length);
+        }
+        return true;
+    }
+
     private boolean isValidCommand(String command) {
-        if (!Arrays.stream(Command.values()).anyMatch(e -> e.name().equals(command))) {
+        if (Arrays.stream(Command.values()).noneMatch(e -> e.name().equals(command))) {
             throw new UnknownProgramCommandException("Unknown program command! " +
                     "Valid commands: ENCRYPT, DECRYPT or BRUTE_FORCE.");
         }

@@ -1,5 +1,4 @@
 target/
-resources/
 .idea
 *.iml
 README_TASK.md

@@ -27,7 +27,11 @@ public class FileService {
     private String getNewFileName(String file, Command command) {
         StringBuilder builder = new StringBuilder(file);
         int index = builder.lastIndexOf(".");
-        builder.insert(index, getCommand(command));
+        if (index == -1) {
+            builder.append(getCommand(command));
+        } else {
+            builder.insert(index, getCommand(command));
+        }
         return builder.toString();
     }
 

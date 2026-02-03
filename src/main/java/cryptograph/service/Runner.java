@@ -15,21 +15,20 @@ public class Runner {
 
     public void run(String... args) {
         if (args.length == 0) {
-            CLI cli = new CLI();
+            CLIService cli = new CLIService();
             args = cli.getProgramArguments();
         }
         if (new ProgramArgumentsValidation().isValidArgs(args)) {
             String inputData = fileService.readFromFile(args[ArgsIndex.ARGS_FILE_PATH_INDEX]);
-            String result = getEncryptedDecryptedData(inputData,
-                    args[ArgsIndex.ARGS_COMMAND_INDEX], Integer.parseInt(args[ArgsIndex.ARGS_KEY_INDEX]));
+            String result = getEncryptedDecryptedData(inputData, args);
             fileService.writeToFile(result, args[ArgsIndex.ARGS_FILE_PATH_INDEX], args[ArgsIndex.ARGS_COMMAND_INDEX]);
         }
     }
 
-    private String getEncryptedDecryptedData(String data, String command, int key) {
-        return switch (Command.valueOf(command)) {
-            case Command.ENCRYPT -> cryptographService.encrypt(data, key);
-            case Command.DECRYPT -> cryptographService.decrypt(data, key);
+    private String getEncryptedDecryptedData(String data, String... args) {
+        return switch (Command.valueOf(args[ArgsIndex.ARGS_COMMAND_INDEX])) {
+            case Command.ENCRYPT -> cryptographService.encrypt(data, Integer.parseInt(args[ArgsIndex.ARGS_KEY_INDEX]));
+            case Command.DECRYPT -> cryptographService.decrypt(data, Integer.parseInt(args[ArgsIndex.ARGS_KEY_INDEX]));
             case Command.BRUTE_FORCE -> cryptographService.bruteForce(data);
         };
     }
