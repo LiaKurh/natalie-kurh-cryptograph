@@ -4,6 +4,7 @@ import cryptograph.domain.Alphabet;
 import cryptograph.domain.Dictionary;
 import cryptograph.exception.InvalidFilePathException;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +31,6 @@ public class DictionaryService {
         Map<String, String> dictionaries = new HashMap<>();
         dictionaries.put(Alphabet.EN_ALPHABET.getAlphabet(), Dictionary.EN_DICTIONARY.getDictionary());
         dictionaries.put(Alphabet.UK_ALPHABET.getAlphabet(), Dictionary.UK_DICTIONARY.getDictionary());
-        return dictionaries;
+        return Collections.unmodifiableMap(dictionaries);
     }
 }

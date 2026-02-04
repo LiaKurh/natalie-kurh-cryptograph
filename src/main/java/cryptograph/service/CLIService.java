@@ -12,7 +12,7 @@ public class CLIService {
             String command = scanner.nextLine();
             System.out.println("Enter path to the file: ");
             String file = scanner.nextLine();
-            if(command.equals(Command.BRUTE_FORCE.name())) {
+            if(Command.BRUTE_FORCE.name().equals(command)) {
                 return new String[]{command, file};
             }
             System.out.println("Enter the key: ");

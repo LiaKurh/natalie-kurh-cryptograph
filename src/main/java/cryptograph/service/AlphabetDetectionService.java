@@ -13,7 +13,7 @@ public class AlphabetDetectionService {
         }
         String letters = getNonRepeatableLetters(data);
         String[] alphabets = getAlphabets();
-        return findAlphabet(letters, alphabets);
+        return determineAlphabet(letters, alphabets);
     }
 
     private String getNonRepeatableLetters(String text) {
@@ -30,7 +30,7 @@ public class AlphabetDetectionService {
         return Arrays.stream(Alphabet.values()).map(Alphabet::getAlphabet).toArray(String[]::new);
     }
 
-    private String findAlphabet(String letters, String[] alphabets) {
+    private String determineAlphabet(String letters, String[] alphabets) {
         String alphabet = "";
         int max = 0;
         for (String possibleAlphabet : alphabets) {

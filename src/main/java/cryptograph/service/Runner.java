@@ -18,11 +18,10 @@ public class Runner {
             CLIService cli = new CLIService();
             args = cli.getProgramArguments();
         }
-        if (new ProgramArgumentsValidation().isValidArgs(args)) {
-            String inputData = fileService.readFromFile(args[ArgsIndex.ARGS_FILE_PATH_INDEX]);
-            String result = getEncryptedDecryptedData(inputData, args);
-            fileService.writeToFile(result, args[ArgsIndex.ARGS_FILE_PATH_INDEX], args[ArgsIndex.ARGS_COMMAND_INDEX]);
-        }
+        new ProgramArgumentsValidation().validateAllArgs(args);
+        String inputData = fileService.readFromFile(args[ArgsIndex.ARGS_FILE_PATH_INDEX]);
+        String result = getEncryptedDecryptedData(inputData, args);
+        fileService.writeToFile(result, args[ArgsIndex.ARGS_FILE_PATH_INDEX], args[ArgsIndex.ARGS_COMMAND_INDEX]);
     }
 
     private String getEncryptedDecryptedData(String data, String... args) {
