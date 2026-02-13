@@ -1,0 +1,4 @@
+target/
+.idea
+*.iml
+README_TASK.md
